@@ -97,7 +97,7 @@ export default function WeeklyView() {
                   title="Weekly Spend vs. Revenue"
                   data={weeklySpendRevenue}
                   xAxisDataKey="week"
-                  yAxisLabel="$ USD"
+                  // yAxisLabel="$ USD"
                   lines={[
                     { dataKey: 'Spend', name: 'Total Spend', stroke: '#ffc658' },
                     { dataKey: 'Revenue', name: 'Total Revenue', stroke: '#ff7300' },
