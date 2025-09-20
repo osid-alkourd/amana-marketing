@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  TooltipProps,
 } from "recharts";
 import {
   NameType,
@@ -29,12 +28,20 @@ interface LineChartProps {
   formatTooltip?: (value: ValueType) => string;
 }
 
+// ✅ Fixed CustomTooltip with correct typings
 const CustomTooltip = ({
   active,
   payload,
   label,
   formatter,
-}: TooltipProps<ValueType, NameType> & {
+}: {
+  active?: boolean;
+  payload?: {
+    name: string;
+    value: ValueType;
+    color?: string;
+  }[];
+  label?: NameType;
   formatter?: (value: ValueType) => string;
 }) => {
   if (active && payload && payload.length) {
@@ -66,11 +73,41 @@ export function LineChart({
       <RechartsLineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
         <XAxis dataKey={xAxisDataKey} stroke="#A0AEC0" />
-        <YAxis stroke="#A0AEC0" label={{ value: yAxisLabel, angle: -90, position: 'insideLeft', fill: '#A0AEC0' }} />
-        <Tooltip content={<CustomTooltip formatter={formatTooltip} />} cursor={{ stroke: '#A0AEC0', strokeWidth: 1, strokeDasharray: '3 3' }} />
-        <Legend wrapperStyle={{ color: '#A0AEC0', paddingTop: '20px' }} />
+        <YAxis
+          stroke="#A0AEC0"
+          label={{
+            value: yAxisLabel,
+            angle: -90,
+            position: "insideLeft",
+            fill: "#A0AEC0",
+          }}
+        />
+        <Tooltip
+          content={
+            <CustomTooltip formatter={formatTooltip} />
+          }
+          cursor={{
+            stroke: "#A0AEC0",
+            strokeWidth: 1,
+            strokeDasharray: "3 3",
+          }}
+        />
+        <Legend
+          wrapperStyle={{
+            color: "#A0AEC0",
+            paddingTop: "20px",
+          }}
+        />
         {lines.map((line) => (
-          <Line key={line.dataKey} type="monotone" dataKey={line.dataKey} stroke={line.stroke} name={line.name} dot={false} activeDot={{ r: 6 }} />
+          <Line
+            key={line.dataKey}
+            type="monotone"
+            dataKey={line.dataKey}
+            stroke={line.stroke}
+            name={line.name}
+            dot={false}
+            activeDot={{ r: 6 }}
+          />
         ))}
       </RechartsLineChart>
     </ResponsiveContainer>
